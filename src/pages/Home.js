@@ -50,6 +50,11 @@ const Home = () => {
     setCount(count - 1);
   };
 
+  const handleClick = (event) => {
+    navigate("/login");
+    localStorage.clear();
+  };
+
   // const testing = () => {
   //   setUpdate(new Date());
   // };
@@ -110,12 +115,12 @@ const Home = () => {
           <Grid
             display={"flex"}
             sx={{
-              justifyContent: "center",
-              alignContent: "center",
+              right: 0,
+              bottom: 0,
               position: "absolute",
             }}
           >
-            <button>logout</button>
+            <button onClick={handleClick}>logout</button>
           </Grid>
         </Grid>
         {/* <AddIcon sx={{ fontSize: 200 }} onClick={testing}></AddIcon> */}
