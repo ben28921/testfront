@@ -58,11 +58,12 @@ const Home = () => {
   // const [count, setCount] = useState(0);
 
   useEffect(() => {
-    // 使用瀏覽器 API 更新文件標題
+    //change the title
     document.title = `You clicked ${count} times`;
     // updateCount++;
     // console.log(updateCount);
     console.log("a", count);
+    //if count equal to 15 redirect to login
     if (count === 15) {
       navigate("/login");
       localStorage.clear();
@@ -101,10 +102,22 @@ const Home = () => {
           backgroundColor: "#03a9fc",
         }}
       >
-        <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
-        <Typography fontSize={72}>{count}</Typography>
-        <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon>
+        <Grid display={"flex"} sx={{ position: "relative" }}>
+          <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
+          <Typography fontSize={72}>{count}</Typography>
+          <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon>
 
+          <Grid
+            display={"flex"}
+            sx={{
+              justifyContent: "center",
+              alignContent: "center",
+              position: "absolute",
+            }}
+          >
+            <button>logout</button>
+          </Grid>
+        </Grid>
         {/* <AddIcon sx={{ fontSize: 200 }} onClick={testing}></AddIcon> */}
         {/* <button className="chevron chevron-up" onClick={decrease} /> */}
         {/* <button className="chevron chevron-down" onClick={increase} /> */}

@@ -36,12 +36,14 @@ export default function Login() {
   const navigate = useNavigate();
 
   const [authenticated, setAuthenticated] = useState(
+    //set up the localStorage
     localStorage.getItem(localStorage.getItem("authenticated") || false)
   );
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    //check the user name and password
     if (data.get("email") === "ben" && data.get("password") === "1234") {
       //   console.log("hi");
       // }
