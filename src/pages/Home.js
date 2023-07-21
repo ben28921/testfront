@@ -7,7 +7,7 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Grid } from "@mui/material";
+import { Grid, Button } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import { blue } from "@mui/material/colors";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -98,29 +98,45 @@ const Home = () => {
       // <Container fixed>
       // <NavBar />
       <Grid
-        container
-        display={"flex"}
         sx={{
-          padding: 50,
-          justifyContent: "center",
-          alignContent: "center",
           backgroundColor: "#03a9fc",
         }}
       >
-        <Grid display={"flex"} sx={{ position: "relative" }}>
-          <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
-          <Typography fontSize={72}>{count}</Typography>
-          <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon>
+        <Grid
+          container
+          sx={{
+            padding: 50,
+            justifyContent: "center",
+            alignContent: "center",
+          }}
+        >
+          <Grid display={"flex"} sx={{ position: "relative" }}>
+            <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
+            <Typography fontSize={72}>{count}</Typography>
+            <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon>
 
-          <Grid
-            display={"flex"}
-            sx={{
-              right: 0,
-              bottom: 0,
-              position: "absolute",
-            }}
-          >
-            <button onClick={handleClick}>logout</button>
+            <Box
+              // fullWidth
+              display={"block"}
+              sx={{
+                justifyContent: "center",
+                alignContent: "center",
+                left: 0,
+                bottom: -100,
+                position: "absolute",
+              }}
+            >
+              <Grid>
+                <Button
+                  sx={{ width: 300 }}
+                  variant="contained"
+                  backgroundColor="green"
+                  onClick={handleClick}
+                >
+                  logout
+                </Button>
+              </Grid>
+            </Box>
           </Grid>
         </Grid>
         {/* <AddIcon sx={{ fontSize: 200 }} onClick={testing}></AddIcon> */}
