@@ -1,158 +1,105 @@
 import * as React from "react";
-import CssBaseline from "@mui/material/CssBaseline";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import { blue } from "@mui/material/colors";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
-import NavBar from "../components/Navbar.js";
+import NavBar from "../components/Navbar";
+import Title from "../components/Title";
+import Footer from "../components/Footer";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import axios from "axios";
+import Container from "@mui/material/Container";
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="text.secondary">
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-// const defaultTheme = createTheme();
-let updateCount = 0;
 const Home = () => {
-  const navigate = useNavigate();
-  const [authenticated, setauthenticated] = useState(null);
+  const [stocks, setStocks] = useState([]);
+  const getStockData = () => {
+    axios
+      .get(
+        "http://127.0.0.1:5000/stock",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+
+        // name: name,
+        // password: password,
+      )
+      // .then((response) => {
+      //   return response.data;
+      // })
+      .then((data) => {
+        console.log(data);
+        setStocks(data.data);
+        // console.log("aaaa", data);
+      });
+    // console.log(a);
+  };
+
   useEffect(() => {
-    // Check user logged in or not
-    const loggedInUser = localStorage.getItem("authenticated");
-    if (loggedInUser) {
-      setauthenticated(loggedInUser);
-    }
+    getStockData();
   }, []);
-
-  const [count, setCount] = useState(10);
-  // const [update, setUpdate] = useState();
-  const increase = () => {
-    setCount(count + 1);
-  };
-  const decrease = () => {
-    setCount(count - 1);
-  };
-
-  const handleClick = (event) => {
-    navigate("/login");
-    localStorage.clear();
-  };
-
-  // const testing = () => {
-  //   setUpdate(new Date());
-  // };
-  // const [color, setColor] = useState("green");
-
-  // const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    //change the title
-    document.title = `You clicked ${count} times`;
-    // updateCount++;
-    // console.log(updateCount);
-    console.log("a", count);
-    //if count equal to 15 redirect to login
-    if (count === 15) {
-      navigate("/login");
-      localStorage.clear();
-      console.log("b", count);
-    }
-  }, [count]);
-  // const handleClick = () => {
-  //   setColor("blue");
-  // };
-
-  if (!authenticated) {
-    navigate("/login");
-    // <Navigate replace to="/login" />;
-  } else {
+  // if (!authenticated) {
+  //   navigate("/login");
+  // } else {
+  if (stocks.length > 0) {
     return (
       // <Container fixed>
-      //   <Grid
-      //     display={"flex"}
-      //     sx={{ justifyContent: "center", alignContent: "center" }}
-      //   >
-      //     <p>Welcome to your Home</p>
-
-      //     <p>You clicked {count} times</p>
-      //     <button onClick={() => setCount(count + 1)}>Click me</button>
-      //   </Grid>
-      // </Container>
-      // <Container fixed>
-      // <NavBar />
       <Grid
         sx={{
-          backgroundColor: "#03a9fc",
+          backgroundColor: "#03a8ac",
         }}
       >
-        <Grid
-          container
-          sx={{
-            padding: 50,
-            justifyContent: "center",
-            alignContent: "center",
-          }}
-        >
-          <Grid display={"flex"} sx={{ position: "relative" }}>
-            <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
-            <Typography fontSize={72}>{count}</Typography>
-            <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon>
-
-            <Box
-              // fullWidth
-              display={"block"}
-              sx={{
-                justifyContent: "center",
-                alignContent: "center",
-                left: 0,
-                bottom: -100,
-                position: "absolute",
-              }}
-            >
-              <Grid>
-                <Button
-                  sx={{ width: 300 }}
-                  variant="contained"
-                  backgroundColor="green"
-                  onClick={handleClick}
-                >
-                  logout
-                </Button>
-              </Grid>
-            </Box>
-          </Grid>
-        </Grid>
-        {/* <AddIcon sx={{ fontSize: 200 }} onClick={testing}></AddIcon> */}
-        {/* <button className="chevron chevron-up" onClick={decrease} /> */}
-        {/* <button className="chevron chevron-down" onClick={increase} /> */}
+        <NavBar />
+        {/* <Title /> */}
+        {/* <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
+                <Typography fontSize={72}>{count}</Typography>
+              <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon> */}
+        <Box sx={{ backgroundColor: "#03a8ac", height: 600 }}>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell>Code</TableCell>
+                  <TableCell align="right">Name</TableCell>
+                  <TableCell align="right">StockPrice</TableCell>
+                  <TableCell align="right">Mkt Cap</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {stocks.map((data) => (
+                  <TableRow
+                    key={data.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {data.code}
+                    </TableCell>
+                    <TableCell align="right">{data.name}</TableCell>
+                    <TableCell align="right">{data.nominal}</TableCell>
+                    <TableCell align="right">{data.Turnover}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+        <Footer />
       </Grid>
-
-      // </Container>
     );
   }
 };
-// const Dashboard = () => {
-//   return (
-//     <div>
-//       <p>Welcome to your Dashboard</p>
-//     </div>
-//   );
 // };
+
 export default Home;

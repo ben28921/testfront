@@ -14,55 +14,51 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Home from "./Home";
-
-// function Copyright(props) {
-//   return (
-//     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-//       {'Copyright © '}
-//       <Link color="inherit" href="https://mui.com/">
-//         Your Website
-//       </Link>{' '}
-//       {new Date().getFullYear()}
-//       {'.'}
-//     </Typography>
-//   );
-// }
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import Title from "../components/Title";
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
+  // const [name, setName] = useState(" ");
+  // const [password, setPassword] = useState(" ");
 
-  const [authenticated, setAuthenticated] = useState(
-    //set up the localStorage
-    localStorage.getItem(localStorage.getItem("authenticated") || false)
-  );
+  // const [authenticated, setAuthenticated] = useState(
+  //   //set up the localStorage
+  //   localStorage.getItem(localStorage.getItem("authenticated") || false)
+  // );
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    //check the user name and password
-    if (data.get("email") === "ben" && data.get("password") === "1234") {
-      //   console.log("hi");
-      // }
-      setAuthenticated(true);
-      localStorage.setItem("authenticated", true);
-      console.log(localStorage);
-      navigate("/home");
-    }
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData(e.currentTarget);
+
+    axios
+      .post("http://127.0.0.1:5000/Login", {
+        name: data.get("email"),
+        password: data.get("password"),
+        // name: name,
+        // password: password,
+      })
+      .then((res) => {
+        // // check login status
+        // console.log(res.data["msg"]);
+        if (res.data.token) {
+          localStorage.setItem("token", res.data.token);
+          navigate("/home");
+        } else {
+          alert("Wrong username or password");
+        }
+        // console.log(res.data["msg"]);
+        // // console.table(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Typography component="h1" variant="h5">
-        {/* {name} */}
-      </Typography>
-      {/* <Button onClick={handleClick}>Change</Button> */}
+      <Typography component="h1" variant="h5"></Typography>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -73,8 +69,7 @@ export default function Login() {
             alignItems: "center",
           }}
         >
-          {/* <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-          </Avatar> */}
+          <Title />
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -93,6 +88,8 @@ export default function Login() {
               name="email"
               autoComplete="email"
               autoFocus
+              // value={name}
+              // onChange={(e) => setName(e.target.value)}
             />
             <TextField
               margin="normal"
@@ -103,35 +100,28 @@ export default function Login() {
               type="password"
               id="password"
               autoComplete="current-password"
+              // value={password}
+              // onChange={(e) => setPassword(e.target.value)}
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
+
             <Button
               type="submit"
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2, backgroundColor: "blue" }}
-              // style={{'backgroundColor':'red'}}
             >
               Sign In
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
-                  {/* Forgot password? */}
-                </Link>
+                <Link href="#" variant="body2"></Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {/* {"Don't have an account? Sign Up"} */}
-                </Link>
+                <Link href="#" variant="body2"></Link>
               </Grid>
             </Grid>
           </Box>
         </Box>
-        {/* <Copyright sx={{ mt: 8, mb: 4 }} /> */}
       </Container>
     </ThemeProvider>
   );
