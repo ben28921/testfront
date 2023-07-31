@@ -77,16 +77,14 @@ const Draw = () => {
 							}}
 						>
 							<Table
-								sx={{ minWidth: 650, maxWidth: "50%" }}
+								sx={{ minWidth: 650, maxWidth: "50%", border: "solid 0px" }}
 								aria-label="simple table"
 							>
-								<TableHead>
+								<TableHead sx={{ backgroundColor: "#E9E9E9" }}>
 									<TableRow>
 										<TableCell>ID</TableCell>
 										<TableCell>Date</TableCell>
-										<TableCell sx={{ justifyContent: "center" }}>
-											Number
-										</TableCell>
+										<TableCell align="center">Number</TableCell>
 										{/* <TableCell>Speical Number</TableCell> */}
 									</TableRow>
 								</TableHead>
