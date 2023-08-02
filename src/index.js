@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Draw from "./pages/Draw";
 import SignUp from "./pages/SignUp";
+import Setting from "./pages/setting";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -20,6 +21,7 @@ root.render(
 				<Route path="home" element={<Home />} />
 				<Route path="draw" element={<Draw />} />
 				<Route path="signup" element={<SignUp />} />
+				<Route path="setting" element={<Setting />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

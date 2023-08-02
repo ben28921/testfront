@@ -19,6 +19,7 @@ import Typography from "@mui/material/Typography";
 import { red } from "@mui/material/colors";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddIcon from "@mui/icons-material/Add";
+import TablePagination from "@mui/material/TablePagination";
 
 const Draw = () => {
 	const redBall = [
@@ -49,8 +50,10 @@ const Draw = () => {
 	const navigate = useNavigate();
 	const [stocks, setStocks] = useState([]);
 	const [bgColor, setBgColor] = useState("#EC565A");
+	const [day, setDay] = useState();
 	const token = localStorage.getItem("token");
 	let ballColor;
+
 	const getStockData = () => {
 		// axios
 		// 	.get(
@@ -76,6 +79,10 @@ const Draw = () => {
 	useEffect(() => {
 		getStockData();
 	}, []);
+
+	const handleChangePage = (e, newPage) => {
+		setDay(newPage);
+	};
 	if (!token) {
 		navigate("/login");
 	} else {
@@ -89,6 +96,7 @@ const Draw = () => {
 					}}
 				>
 					<NavBar />
+
 					{/* <Title /> */}
 					{/* <AddIcon sx={{ fontSize: 100 }} onClick={increase}></AddIcon>
                 <Typography fontSize={72}>{count}</Typography>
