@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Draw from "./pages/Draw";
+import SignUp from "./pages/SignUp";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -18,6 +19,7 @@ root.render(
 				<Route path="login" element={<Login />} />
 				<Route path="home" element={<Home />} />
 				<Route path="draw" element={<Draw />} />
+				<Route path="signup" element={<SignUp />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>
