@@ -13,6 +13,7 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import SportsSoccerOutlinedIcon from "@mui/icons-material/SportsSoccerOutlined";
 
 // const pages = ["Products", "Pricing", "Blog"];
 const pages = [];
@@ -44,17 +45,19 @@ function NavBar() {
 		localStorage.clear();
 	};
 
-	let userName = localStorage.getItem("username");
+	let userName = localStorage.getItem("name");
 	return (
 		<AppBar position="static">
 			<Container maxWidth="xl">
 				<Toolbar disableGutters>
-					<AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
+					<SportsSoccerOutlinedIcon
+						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+					/>
 					<Typography
 						variant="h6"
 						noWrap
 						component="a"
-						href="/"
+						// href="/"
 						sx={{
 							mr: 2,
 							display: { xs: "none", md: "flex" },
@@ -65,7 +68,7 @@ function NavBar() {
 							textDecoration: "none",
 						}}
 					>
-						LOGO
+						MarkSix
 					</Typography>
 					<Typography
 						noWrap
@@ -73,7 +76,7 @@ function NavBar() {
 						href="/draw"
 						sx={{ color: "white", textDecoration: "none" }}
 					>
-						Six Mark table
+						MarkSixtable
 					</Typography>
 					<Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
 						<IconButton
@@ -144,7 +147,10 @@ function NavBar() {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt={userName} src="/static/images/avatar/2.jpg" />
+								<Avatar
+									alt={userName.toUpperCase()}
+									src="/static/images/avatar/2.jpg"
+								/>
 							</IconButton>
 						</Tooltip>
 						<Menu

@@ -8,7 +8,7 @@ import Login from "./pages/Login";
 import Home from "./pages/Home";
 import Draw from "./pages/Draw";
 import SignUp from "./pages/SignUp";
-import Setting from "./pages/setting";
+import Setting from "./pages/Setting";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

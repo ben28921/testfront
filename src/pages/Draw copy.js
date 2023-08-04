@@ -20,13 +20,6 @@ import { red } from "@mui/material/colors";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import AddIcon from "@mui/icons-material/Add";
 import TablePagination from "@mui/material/TablePagination";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import InputLabel from "@mui/material/InputLabel";
-import Swal from "sweetalert2";
-import Pagination from "@mui/material/Pagination";
-import Stack from "@mui/material/Stack";
 
 const Draw = () => {
 	const redBall = [
@@ -57,11 +50,8 @@ const Draw = () => {
 	const navigate = useNavigate();
 	const [draws, setdraws] = useState([]);
 	const [bgColor, setBgColor] = useState("#EC565A");
-	// const [day, setDay] = useState();
+	const [day, setDay] = useState();
 	const token = localStorage.getItem("token");
-	const [day, setDay] = React.useState(30);
-	const [date, setDate] = useState();
-	const [selectedDate, setselectedDate] = useState();
 	let ballColor;
 
 	const getStockData = () => {
@@ -72,10 +62,9 @@ const Draw = () => {
 		// 		// name: name,
 		// 		// password: password,
 		// 	)
-		axios
-			.get("http://127.0.0.1:5000/draw", {
-				params: { day: day },
-			})
+		axios({
+			url: "http://127.0.0.1:5000/draw",
+		})
 			// .then((response) => {
 			//   return response.data;
 			// })
@@ -87,34 +76,12 @@ const Draw = () => {
 			.catch((err) => console.log(err));
 		// console.log(a);
 	};
-
-	const getDrawDate = () => {
-		axios
-			.get("http://127.0.0.1:5000/getLuckyDrawDate", {
-				params: { date: selectedDate },
-			})
-			.then((data) => {
-				setdraws(data.data.data);
-			});
-	};
 	useEffect(() => {
 		getStockData();
-		console.log("v", day);
-		// alert(`${day} sort to 20 day`);
-	}, [day]);
+	}, []);
 
-	const handleChange = (e) => {
-		setDay(e.target.value);
-		// alert(`${day} sort to 20 day`);
-
-		Swal.fire("Table Change ");
-	};
 	const handleChangePage = (e, newPage) => {
 		setDay(newPage);
-	};
-	const handleChangeDate = (e) => {
-		setselectedDate(e.target.value);
-		getDrawDate();
 	};
 	if (!token) {
 		navigate("/login");
@@ -124,11 +91,9 @@ const Draw = () => {
 			return (
 				// <Container fixed>
 				<Grid
-					sx={
-						{
-							// backgroundColor: "#03a8ac",
-						}
-					}
+					sx={{
+						backgroundColor: "#03a8ac",
+					}}
 				>
 					<NavBar />
 
@@ -138,52 +103,10 @@ const Draw = () => {
               <RemoveIcon sx={{ fontSize: 100 }} onClick={decrease}></RemoveIcon> */}
 
 					<Box
-						sx={
-							{
-								// backgroundColor: "#03a8ac",
-							}
-						}
+						sx={{
+							backgroundColor: "#03a8ac",
+						}}
 					>
-						<Box sx={{ padding: 1, minWidth: 120 }}>
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Day</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									value={day}
-									label="Day"
-									onChange={handleChange}
-								>
-									<MenuItem value={10}>Ten</MenuItem>
-									<MenuItem value={20}>Twenty</MenuItem>
-									<MenuItem value={30}>Thirty</MenuItem>
-								</Select>
-							</FormControl>
-						</Box>
-
-						<Box sx={{ padding: 1, minWidth: 120 }}>
-							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Day</InputLabel>
-								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
-									// value={day}
-									label="Day"
-									onChange={handleChangeDate}
-								>
-									{draws.map((data, i) => (
-										<MenuItem key={i} value={data.date}>
-											{data.date}
-										</MenuItem>
-									))}
-
-									{/* <MenuItem value={10}>Ten</MenuItem>
-									<MenuItem value={20}>Twenty</MenuItem>
-									<MenuItem value={30}>Thirty</MenuItem> */}
-								</Select>
-							</FormControl>
-						</Box>
-
 						<TableContainer
 							component={Paper}
 							sx={{
@@ -300,12 +223,6 @@ const Draw = () => {
 								</TableBody>
 							</Table>
 						</TableContainer>
-						{/* <Stack
-							sx={{ justifyContent: "center", alignItems: "center" }}
-							spacing={2}
-						>
-							<Pagination count={10} />
-						</Stack> */}
 					</Box>
 					{/* <Footer /> */}
 				</Grid>
