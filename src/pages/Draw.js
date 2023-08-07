@@ -12,6 +12,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Link from "@mui/material/Link";
 import { styled } from "@mui/material/styles";
 import axios from "axios";
 import Container from "@mui/material/Container";
@@ -130,6 +131,22 @@ const Draw = () => {
 				setdraws(data.data.data);
 			});
 	};
+
+	const getPageData = (pageNum) => {
+		if (pageNum === 1) {
+			axios.get("http://127.0.0.1:5000/drawP?sday=0&eday=10").then((data) => {
+				setdraws(data.data.data);
+			});
+		} else if (pageNum === 2) {
+			axios.get("http://127.0.0.1:5000/drawP?sday=10&eday=20").then((data) => {
+				setdraws(data.data.data);
+			});
+		} else {
+			axios.get("http://127.0.0.1:5000/drawP?sday=20&eday=30").then((data) => {
+				setdraws(data.data.data);
+			});
+		}
+	};
 	useEffect(() => {
 		getAllData(day);
 		getDrawAllDate();
@@ -137,8 +154,12 @@ const Draw = () => {
 		// getAllData(day);
 		console.log("v", day);
 		// alert(`${day} sort to 20 day`);
-	}, [day]);
-
+	}, []);
+	const handlepage = (e) => {
+		//127.0.0.1:5000/drawP?sday=0&eday=10
+		// console.log(e.target.value);
+		getPageData(e.target.value);
+	};
 	const handleChange = (e) => {
 		setDay(e.target.value);
 		// alert(`${day} sort to 20 day`);
@@ -338,6 +359,18 @@ const Draw = () => {
 								</TableBody>
 							</Table>
 						</TableContainer>
+						<Box display={"flex"} justifyContent={("center", "space-around")}>
+							<Button variant="contained" value="1" onClick={handlepage}>
+								1
+							</Button>
+							<Button variant="contained" value="2" onClick={handlepage}>
+								2
+							</Button>
+							<Button variant="contained" value="3" onClick={handlepage}>
+								3
+							</Button>
+						</Box>
+
 						{/* <Stack
 							sx={{ justifyContent: "center", alignItems: "center" }}
 							spacing={2}
