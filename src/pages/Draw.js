@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, Button, colors, backdropClasses } from "@mui/material";
 import NavBar from "../components/Navbar";
@@ -25,9 +25,10 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import InputLabel from "@mui/material/InputLabel";
 import Swal from "sweetalert2";
-import Pagination from "@mui/material/Pagination";
+// import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";
-
+// import Pagination from "../Pagination";
+import Pagination from "./Pagination";
 const Draw = () => {
 	const redBall = [
 		1, 2, 7, 8, 12, 13, 18, 19, 23, 24, 29, 30, 34, 35, 40, 45, 46,
@@ -38,6 +39,9 @@ const Draw = () => {
 	const greenBall = [
 		5, 6, 11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49,
 	];
+
+	let PageSize = 10;
+
 	const checkColor = (num) => {
 		if (redBall.includes(parseInt(num))) {
 			return "#EC565A";
@@ -56,15 +60,36 @@ const Draw = () => {
 	// const greenBall = [11, 16, 17, 21, 22, 27, 28, 32, 33, 38, 39, 43, 44, 49];
 	const navigate = useNavigate();
 	const [draws, setdraws] = useState([]);
+	const [draws2, setdraws2] = useState([]);
 	const [bgColor, setBgColor] = useState("#EC565A");
 	// const [day, setDay] = useState();
 	const token = localStorage.getItem("token");
-	const [day, setDay] = React.useState(30);
+	const [day, setDay] = useState(30);
 	const [date, setDate] = useState();
 	const [selectedDate, setselectedDate] = useState();
 	let ballColor;
 
-	const getStockData = () => {
+	const [currentPage, setCurrentPage] = useState(1);
+
+	const getDrawDateP = (a, b) => {
+		axios
+			.get("http://127.0.0.1:5000/DrawP", {
+				params: { sday: a, eday: b },
+			})
+			.then((data) => {
+				setdraws(data.data.data);
+			});
+	};
+
+	// const currentTableData = useMemo(() => {
+	// 	const firstPageIndex = (currentPage - 1) * PageSize;
+	// 	const lastPageIndex = firstPageIndex + PageSize;
+
+	// 	// return data.slice(firstPageIndex, lastPageIndex);
+	// 	return getDrawDateP(firstPageIndex, lastPageIndex);
+	// }, [currentPage]);
+
+	const getAllData = (a) => {
 		// axios
 		// 	.get(
 		// 		"https://bet.hkjc.com/contentserver/jcbw/cmc/last30draw.json"
@@ -74,7 +99,7 @@ const Draw = () => {
 		// 	)
 		axios
 			.get("http://127.0.0.1:5000/draw", {
-				params: { day: day },
+				params: { day: a },
 			})
 			// .then((response) => {
 			//   return response.data;
@@ -88,17 +113,28 @@ const Draw = () => {
 		// console.log(a);
 	};
 
-	const getDrawDate = () => {
+	const getDrawAllDate = () => {
+		axios
+			.get("http://127.0.0.1:5000/getAllDate")
+
+			.then((data) => {
+				setdraws2(data.data.data);
+			});
+	};
+	const getDrawDate = (a) => {
 		axios
 			.get("http://127.0.0.1:5000/getLuckyDrawDate", {
-				params: { date: selectedDate },
+				params: { date: a },
 			})
 			.then((data) => {
 				setdraws(data.data.data);
 			});
 	};
 	useEffect(() => {
-		getStockData();
+		getAllData(day);
+		getDrawAllDate();
+		// getDrawDate();
+		// getAllData(day);
 		console.log("v", day);
 		// alert(`${day} sort to 20 day`);
 	}, [day]);
@@ -106,15 +142,17 @@ const Draw = () => {
 	const handleChange = (e) => {
 		setDay(e.target.value);
 		// alert(`${day} sort to 20 day`);
-
+		getAllData(e.target.value);
+		console.log(e.target.value);
 		Swal.fire("Table Change ");
 	};
 	const handleChangePage = (e, newPage) => {
 		setDay(newPage);
 	};
 	const handleChangeDate = (e) => {
-		setselectedDate(e.target.value);
-		getDrawDate();
+		// setselectedDate(e.target.value);
+		console.log(e.target.value);
+		getDrawDate(e.target.value);
 	};
 	if (!token) {
 		navigate("/login");
@@ -144,14 +182,14 @@ const Draw = () => {
 							}
 						}
 					>
-						<Box sx={{ padding: 1, minWidth: 120 }}>
+						<Box display={"flex"} sx={{ padding: 1, minWidth: 20 }}>
 							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Day</InputLabel>
+								<InputLabel id="select-label-1">Days</InputLabel>
 								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
+									labelId="select-label-1"
+									id="select-1"
 									value={day}
-									label="Day"
+									// label="Day"
 									onChange={handleChange}
 								>
 									<MenuItem value={10}>Ten</MenuItem>
@@ -159,22 +197,20 @@ const Draw = () => {
 									<MenuItem value={30}>Thirty</MenuItem>
 								</Select>
 							</FormControl>
-						</Box>
 
-						<Box sx={{ padding: 1, minWidth: 120 }}>
 							<FormControl fullWidth>
-								<InputLabel id="demo-simple-select-label">Day</InputLabel>
+								<InputLabel id="select-label-2">Date</InputLabel>
 								<Select
-									labelId="demo-simple-select-label"
-									id="demo-simple-select"
+									labelId="select-label-2"
+									id="select-2"
 									// value={day}
-									label="Day"
+									label="Date"
 									onChange={handleChangeDate}
 								>
-									{draws.map((data, i) => (
-										<MenuItem key={i} value={data.date}>
-											{data.date}
-										</MenuItem>
+									{draws2.map((data, i) => (
+										// <MenuItem key={i} value={data.date}>
+										<MenuItem value={data.date}>{data.date}</MenuItem>
+										// </MenuItem>
 									))}
 
 									{/* <MenuItem value={10}>Ten</MenuItem>
@@ -183,6 +219,8 @@ const Draw = () => {
 								</Select>
 							</FormControl>
 						</Box>
+
+						<Box sx={{ padding: 1, minWidth: 120 }}></Box>
 
 						<TableContainer
 							component={Paper}
@@ -306,6 +344,13 @@ const Draw = () => {
 						>
 							<Pagination count={10} />
 						</Stack> */}
+						{/* <Pagination
+							className="pagination-bar"
+							currentPage={currentPage}
+							totalCount={draws.length}
+							pageSize={PageSize}
+							onPageChange={(page) => setCurrentPage(page)}
+						/> */}
 					</Box>
 					{/* <Footer /> */}
 				</Grid>
