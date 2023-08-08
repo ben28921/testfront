@@ -100,6 +100,10 @@ const Draw = () => {
 		// 	)
 		axios
 			.get("http://127.0.0.1:5000/draw", {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
 				params: { day: a },
 			})
 			// .then((response) => {
@@ -133,11 +137,11 @@ const Draw = () => {
 	};
 
 	const getPageData = (pageNum) => {
-		if (pageNum === 1) {
+		if (pageNum === "1") {
 			axios.get("http://127.0.0.1:5000/drawP?sday=0&eday=10").then((data) => {
 				setdraws(data.data.data);
 			});
-		} else if (pageNum === 2) {
+		} else if (pageNum === "2") {
 			axios.get("http://127.0.0.1:5000/drawP?sday=10&eday=20").then((data) => {
 				setdraws(data.data.data);
 			});
