@@ -11,7 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
-const Setting = () => {
+const Settings = () => {
 	const navigate = useNavigate();
 
 	const handleSubmit = (e) => {
@@ -131,4 +131,4 @@ const Setting = () => {
 	);
 };
 
-export default Setting;
+export default Settings;
