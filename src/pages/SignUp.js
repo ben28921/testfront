@@ -27,7 +27,7 @@ export default function SignUp() {
 		const data = new FormData(event.currentTarget);
 		if (data.get("password") === data.get("password2")) {
 			axios
-				.post("http://127.0.0.1:5000/Signup", {
+				.post("http://127.0.0.1/Signup", {
 					name: data.get("userName"),
 					password: data.get("password"),
 					// name: name,

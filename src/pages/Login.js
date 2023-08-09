@@ -45,7 +45,7 @@ export default function Login() {
 		const data = new FormData(e.currentTarget);
 		setLoading(true);
 		axios
-			.post("http://127.0.0.1:5000/Login", {
+			.post("http://127.0.0.1/Login", {
 				name: data.get("email"),
 				password: data.get("password"),
 				// name: name,
