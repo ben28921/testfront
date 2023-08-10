@@ -11,6 +11,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import Swal from "sweetalert2";
+import { Margin } from "@mui/icons-material";
 const Settings = () => {
 	const navigate = useNavigate();
 
@@ -19,7 +20,7 @@ const Settings = () => {
 		const data = new FormData(e.currentTarget);
 		if (data.get("password") === data.get("password2")) {
 			axios
-				.put("http://127.0.0.1:5000/changePassword", {
+				.put("http://192.168.123.78:5000/changePassword", {
 					name: localStorage.getItem("name"),
 
 					oldPassword: data.get("newpassword"),
@@ -59,18 +60,23 @@ const Settings = () => {
 			<NavBar />
 			<Box
 				sx={{
-					marginTop: 30,
+					// marginTop: 30,
 					display: "flex",
 					flexDirection: "column",
 
 					alignItems: "center",
 					justifyContent: "center",
+					height: "100vh",
 				}}
 			>
-				<Typography component="h1" variant="h5">
-					Setting
-				</Typography>
-				<Box component="form" onSubmit={handleSubmit}>
+				<Box
+					// sx={{ backgroundColor: "#dee2e6" }}
+					component="form"
+					onSubmit={handleSubmit}
+				>
+					<Typography align="center" component="h1" variant="h5">
+						Setting
+					</Typography>
 					<Grid container spacing={2}>
 						{/* <Grid item xs={12}>
 							<TextField
