@@ -74,7 +74,7 @@ const Draw = () => {
 
 	const getDrawDateP = (a, b) => {
 		axios
-			.get("http://127.0.0.1:5000/DrawP", {
+			.get("http://192.168.123.78:5000/DrawP", {
 				params: { sday: a, eday: b },
 			})
 			.then((data) => {
@@ -99,7 +99,7 @@ const Draw = () => {
 		// 		// password: password,
 		// 	)
 		axios
-			.get("http://127.0.0.1:5000/draw", {
+			.get("http://192.168.123.78:5000/draw", {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ const Draw = () => {
 
 	const getDrawAllDate = () => {
 		axios
-			.get("http://127.0.0.1:5000/getAllDate")
+			.get("http://192.168.123.78:5000/getAllDate")
 
 			.then((data) => {
 				setdraws2(data.data.data);
@@ -128,7 +128,7 @@ const Draw = () => {
 	};
 	const getDrawDate = (a) => {
 		axios
-			.get("http://127.0.0.1:5000/getLuckyDrawDate", {
+			.get("http://192.168.123.78:5000/getLuckyDrawDate", {
 				params: { date: a },
 			})
 			.then((data) => {
@@ -138,17 +138,23 @@ const Draw = () => {
 
 	const getPageData = (pageNum) => {
 		if (pageNum === "1") {
-			axios.get("http://127.0.0.1:5000/drawP?sday=0&eday=10").then((data) => {
-				setdraws(data.data.data);
-			});
+			axios
+				.get("http://192.168.123.78:5000/drawP?sday=0&eday=10")
+				.then((data) => {
+					setdraws(data.data.data);
+				});
 		} else if (pageNum === "2") {
-			axios.get("http://127.0.0.1:5000/drawP?sday=10&eday=20").then((data) => {
-				setdraws(data.data.data);
-			});
+			axios
+				.get("http://192.168.123.78:5000/drawP?sday=10&eday=20")
+				.then((data) => {
+					setdraws(data.data.data);
+				});
 		} else {
-			axios.get("http://127.0.0.1:5000/drawP?sday=20&eday=30").then((data) => {
-				setdraws(data.data.data);
-			});
+			axios
+				.get("http://192.168.123.78:5000/drawP?sday=20&eday=30")
+				.then((data) => {
+					setdraws(data.data.data);
+				});
 		}
 	};
 	useEffect(() => {
@@ -160,11 +166,14 @@ const Draw = () => {
 		// alert(`${day} sort to 20 day`);
 	}, []);
 	const handlepage = (e) => {
-		//127.0.0.1:5000/drawP?sday=0&eday=10
+		e.preventDefault();
+		//192.168.123.78:5000/drawP?sday=0&eday=10
 		// console.log(e.target.value);
 		getPageData(e.target.value);
 	};
 	const handleChange = (e) => {
+		e.preventDefault();
+
 		setDay(e.target.value);
 		// alert(`${day} sort to 20 day`);
 		getAllData(e.target.value);
@@ -172,9 +181,13 @@ const Draw = () => {
 		Swal.fire("Table Change ");
 	};
 	const handleChangePage = (e, newPage) => {
+		e.preventDefault();
+
 		setDay(newPage);
 	};
 	const handleChangeDate = (e) => {
+		e.preventDefault();
+
 		// setselectedDate(e.target.value);
 		console.log(e.target.value);
 		getDrawDate(e.target.value);
