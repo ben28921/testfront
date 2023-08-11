@@ -74,7 +74,7 @@ const Draw = () => {
 
 	const getDrawDateP = (a, b) => {
 		axios
-			.get("http://192.168.123.78:5000/DrawP", {
+			.get("http://192.168.123.63/DrawP", {
 				params: { sday: a, eday: b },
 			})
 			.then((data) => {
@@ -99,7 +99,7 @@ const Draw = () => {
 		// 		// password: password,
 		// 	)
 		axios
-			.get("http://192.168.123.78:5000/draw", {
+			.get("http://192.168.123.63/draw", {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
@@ -120,7 +120,7 @@ const Draw = () => {
 
 	const getDrawAllDate = () => {
 		axios
-			.get("http://192.168.123.78:5000/getAllDate")
+			.get("http://192.168.123.63/getAllDate")
 
 			.then((data) => {
 				setdraws2(data.data.data);
@@ -128,7 +128,7 @@ const Draw = () => {
 	};
 	const getDrawDate = (a) => {
 		axios
-			.get("http://192.168.123.78:5000/getLuckyDrawDate", {
+			.get("http://192.168.123.63/getLuckyDrawDate", {
 				params: { date: a },
 			})
 			.then((data) => {
@@ -138,23 +138,17 @@ const Draw = () => {
 
 	const getPageData = (pageNum) => {
 		if (pageNum === "1") {
-			axios
-				.get("http://192.168.123.78:5000/drawP?sday=0&eday=10")
-				.then((data) => {
-					setdraws(data.data.data);
-				});
+			axios.get("http://192.168.123.63/drawP?sday=0&eday=10").then((data) => {
+				setdraws(data.data.data);
+			});
 		} else if (pageNum === "2") {
-			axios
-				.get("http://192.168.123.78:5000/drawP?sday=10&eday=20")
-				.then((data) => {
-					setdraws(data.data.data);
-				});
+			axios.get("http://192.168.123.63/drawP?sday=10&eday=20").then((data) => {
+				setdraws(data.data.data);
+			});
 		} else {
-			axios
-				.get("http://192.168.123.78:5000/drawP?sday=20&eday=30")
-				.then((data) => {
-					setdraws(data.data.data);
-				});
+			axios.get("http://192.168.123.63/drawP?sday=20&eday=30").then((data) => {
+				setdraws(data.data.data);
+			});
 		}
 	};
 	useEffect(() => {
@@ -167,7 +161,7 @@ const Draw = () => {
 	}, []);
 	const handlepage = (e) => {
 		e.preventDefault();
-		//192.168.123.78:5000/drawP?sday=0&eday=10
+		//192.168.123.63 /drawP?sday=0&eday=10
 		// console.log(e.target.value);
 		getPageData(e.target.value);
 	};
