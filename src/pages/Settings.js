@@ -20,7 +20,7 @@ const Settings = () => {
 		const data = new FormData(e.currentTarget);
 		if (data.get("password") === data.get("password2")) {
 			axios
-				.put("http://192.168.123.78:5000/changePassword", {
+				.put("http://192.168.123.63/changePassword", {
 					name: localStorage.getItem("name"),
 
 					oldPassword: data.get("newpassword"),
