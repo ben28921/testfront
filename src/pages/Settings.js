@@ -23,7 +23,7 @@ const Settings = () => {
 				.put("http://192.168.123.63/changePassword", {
 					name: localStorage.getItem("name"),
 
-					oldPassword: data.get("newpassword"),
+					oldPassword: data.get("oldpassword"),
 					newPassword: data.get("newpassword"),
 					// name: name,
 					// password: password,
